@@ -44,17 +44,46 @@ public class AuditeurCNAM {
      * @return le login du Cnam simplifié, sans les adaptations dues aux
      *         homonymes...
      */
-    public String login() {
-        return "";// à compléter
-    }
+    public String pasAccents(String x){
+ //Manque surement des accents
+ String accents = "àâäãéèêëîïìöôòõüûùÀÂÄÃÉÈÊËÎÏÌÖÔÒÕÜÛÙ";
+//tableau regroupant les accents
+ String paccents = "aaaaeeeeiiioooouuuaaaaeeeeiiioooouuu";
 
+ int l = accents.length();//longueur du tableau
+ for(int i = 0; i<l ; i++){
+ x = x.replace(accents.charAt(i), paccents.charAt(i));
+ }
+ return x;
+ }
+
+public String login(){
+ String n;
+ String p;
+ //6 premieres lettres du nom
+ //utilisation de Math.min pour eviter StringIndexOutOfBoundsException
+ n = this.nom.substring(0,Math.min(this.nom.length(),6));
+ //premiere lettre du prénom
+ p = this.prenom.substring(0,1);
+ //minuscule
+ n = n.toLowerCase();
+ p = p.toLowerCase();
+ //faire une méthode pour les accents
+ n = pasAccents(n);
+ p = pasAccents(p);
+
+ n = n.replaceAll("[^a-z]","_");
+ p = p.replaceAll("[^a-z]","_");
+ return n+"_"+p;
+ }
+   
     /**
      * Lecture du nom de l'auditeur.
      * 
      * @return son nom
      */
     public String nom() {
-        return null;// à compléter
+        return this.nom;
     }
 
     /**
@@ -63,7 +92,7 @@ public class AuditeurCNAM {
      * @return son prénom
      */
     public String prenom() {
-        return null;// à compléter
+        return this.prenom;
     }
 
     /**
@@ -72,7 +101,7 @@ public class AuditeurCNAM {
      * @return son matricule
      */
     public String matricule() {
-        return null;// à compléter
+        return this.matricule;
     }
 
     /**
